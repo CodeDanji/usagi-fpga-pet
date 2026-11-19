@@ -1,0 +1,9 @@
+build/
+results/*.csv
+results/*.mem
+results/*.ppm
+results/*.png
+results/*.rpt
+results/*.jou
+results/*.log
+__pycache__/

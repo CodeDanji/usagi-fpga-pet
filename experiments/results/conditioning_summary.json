@@ -1,0 +1,22 @@
+{
+  "steps": 39600,
+  "dt_ms": 0.25,
+  "test_duration_ms": 200,
+  "post_spike_counts": {
+    "before_card": 0,
+    "after_card": 12,
+    "control_card": 0,
+    "after_card_repeat": 12
+  },
+  "final_weight": 24.0,
+  "checks": {
+    "untrained_no_response": true,
+    "trained_response": true,
+    "control_no_response": true,
+    "retained_response": true,
+    "control_weight_unchanged": true,
+    "no_numeric_clipping": true,
+    "weights_frozen_in_test": true
+  },
+  "rtl_match": "39600 steps, all 15 fields bit-exact"
+}

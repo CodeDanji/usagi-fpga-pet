@@ -1,0 +1,16 @@
+# Vivado-generated state; editable HDL/XDC/MEM stay in final.srcs.
+**/.Xil/
+final.cache/
+final.gen/
+final.hw/
+final.ip_user_files/
+final.runs/
+final.sim/
+*.jou
+*.log
+*.str
+tmp/
+.codex-attachments/
+**/__pycache__/
+board/results/*.dcp
+board/backup/
