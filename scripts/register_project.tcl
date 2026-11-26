@@ -11,7 +11,10 @@ if {[file normalize [get_property DIRECTORY [current_project]]] ne $root} {
 set rtl [file join $root final.srcs sources_1 rtl]
 foreach folder {common display neuron vision board} {
     foreach src [glob [file join $rtl $folder *.sv]] {
-        if {[llength [get_files -quiet $src]]==0} {add_files -norecurse -fileset sources_1 $src}
+        if {[llength [get_files -quiet -of_objects [get_filesets sources_1] $src]]==0} {
+            add_files -norecurse -fileset sources_1 $src
+        }
+        set_property used_in_synthesis true [get_files -of_objects [get_filesets sources_1] $src]
     }
 }
 foreach src [glob [file join $root final.srcs sources_1 rom *.mem]] {
@@ -24,7 +27,7 @@ set_property target_language Verilog [current_project]
 set_property simulator_language Mixed [current_project]
 set xdc [file join $root final.srcs constrs_1 new hanback_lcd_pet.xdc]
 if {[llength [get_files -quiet $xdc]]==0} {add_files -norecurse -fileset constrs_1 $xdc}
-foreach {fileset top} {sim_1 tb_board sim_card tb_card_path sim_display tb_display sim_conditioning tb_conditioning sim_camera tb_camera} {
+foreach {fileset top} {sim_1 tb_board sim_card tb_card_path sim_display tb_display sim_conditioning tb_conditioning sim_camera tb_camera sim_vision tb_vision_diagnostics} {
     if {[llength [get_filesets -quiet $fileset]]==0} {create_fileset -simset $fileset}
     set src [file join $root final.srcs sim_1 new $top.sv]
     if {[llength [get_files -quiet -of_objects [get_filesets $fileset] $src]]==0} {
@@ -36,4 +39,11 @@ foreach {fileset top} {sim_1 tb_board sim_card tb_card_path sim_display tb_displ
 current_fileset -simset [get_filesets sim_1]
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
-puts "Sources registered: top=usagi_board_top; camera/LCD constraints; 5 simulation filesets"
+foreach name {ov7670_config camera_pipeline sccb_master} {
+    set required [file join $rtl vision ${name}.sv]
+    if {[llength [get_files -quiet -of_objects [get_filesets sources_1] $required]] != 1} {
+        error "Camera source registration failed: $required"
+    }
+    puts "Camera source ready: $name (used_in_synthesis=true)"
+}
+puts "Sources registered: top=usagi_board_top; camera/LCD constraints; 6 simulation filesets"

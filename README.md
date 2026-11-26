@@ -1,10 +1,17 @@
 # 우사기 FPGA 보드 시험 프로젝트
 
+**먼저 [인수인계서](docs/HANDOFF.md)를 읽는다. 실물 주클록 핀은 B6다. G2로 되돌리지 않는다.**
+
+색 검출 무반응 및 움직임을 확인하는 새 진단 기능은
+[색·방향·가위바위보 인식 시험](docs/VISION_LAB.md)을 따른다.
+새 RTL로 생성한 BIT가 필요하며 기존 다운로드 이미지에는 자동 반영되지 않는다.
+
 **열 프로젝트: `final.xpr` / Design Sources top: `usagi_board_top`.**
 RTL, ROM, XDC와 테스트벤치를 Vivado 표준 `final.srcs` 아래에 배치하고 실제 프로젝트에 등록했다.
 `.sv`는 Vivado가 지원하는 SystemVerilog 소스이며, 파일 유형도 명시했다.
 
-최종 배치·배선/비트스트림 결과와 남은 경고는 [보드 검증 결과](board/VERIFICATION.md)에 정리했다.
+[보드 검증 결과](board/VERIFICATION.md)는 이전 G2 빌드 기록이다.
+현재 B6 실물 확인과 최신 BIT 경로는 인수인계서가 우선한다.
 
 ## 지금 열린 Sources가 비어 있는 경우
 
@@ -19,7 +26,9 @@ source {C:/Users/sodas/.Xilinx/final/scripts/register_project.tcl}
 
 ## 다운로드할 파일과 기능
 
-`board/usagi_camera_pet.bit`는 **OV7670 카메라 + TFT LCD + 실제 뉴런/학습 회로** 통합 시험용이다.
+통합 설계는 **OV7670 카메라 + TFT LCD + 실제 뉴런/학습 회로** 시험용이다.
+사용자가 B6로 변경해 생성·시험한 파일은 `final.runs/impl_1/usagi_board_top.bit`다.
+`board/usagi_camera_pet.bit`는 별도 배치 빌드의 출력이며, 현재 남은 파일은 이전 G2 버전이다.
 128x128 4비트 우사기 두 표정, MMCM 클록 생성, LCD 픽셀 클록 출력,
 핀·I/O 표준·LCD 입출력 타이밍 제약을 포함한다.
 
@@ -32,16 +41,13 @@ source {C:/Users/sodas/.Xilinx/final/scripts/register_project.tcl}
 
 1. Xilinx Spartan-7 모듈을 사용한다. 대상 부품은 `xc7s75fgga484-1`이다.
 2. 보드의 **CLOCK SELECT 스위치를 F(50MHz)**로 둔다.
-   이 설계는 강의 핀맵의 `MAIN_CLOCK1 = G2`를 사용한다.
-   G2는 일반 I/O이므로 첫 글로벌 버퍼까지 일반 배선을 허용하고 이후 MMCM/BUFG를 사용한다.
-   T2는 MRCC의 N측이라 단일 종단 전용 클록 입력으로 사용할 수 없음을 배치 DRC로 확인했다.
+   **실물에서 동작한 `MAIN_CLOCK1 = B6`를 사용한다.**
+   강의 PDF의 G2는 이 보드에서 흰 화면·LED 무반응을 보였으므로 다시 적용하지 않는다.
 3. DIP1~5를 모두 OFF로 두고 JTAG를 연결한다.
 4. Vivado Hardware Manager에서 Open Target / Auto Connect 후 FPGA의 Program Device를 누르고
-   `board/usagi_camera_pet.bit`를 선택한다. 또는 다음 Tcl을 **직접 실행**한다.
-
-   ```tcl
-   source {C:/Users/sodas/.Xilinx/final/scripts/program_board.tcl}
-   ```
+   `final.runs/impl_1/usagi_board_top.bit`를 선택한다.
+   `scripts/program_board.tcl`은 이전 `board/` BIT를 선택하므로,
+   해당 파일을 B6로 새로 생성하기 전에는 그대로 실행하지 않는다.
 
 5. **H 버튼**을 눌렀다 놓아 초기화한다. LED1(아래 표의 LED[0])은 클록 lock,
    LED2는 느린 점멸이며 우사기가 LCD에 표시되어야 한다.
@@ -64,8 +70,8 @@ source {C:/Users/sodas/.Xilinx/final/scripts/register_project.tcl}
    여러 차례 반복한다. DIP2 OFF 후 카드만 제시해 학습 전후 반응을 비교한다.
    이때 A는 카메라 대신 사용되지 않는다. DIP3 ON은 ROM 자극이 우선한다.
 
-카메라 모드의 LED1~8: **lock / 점멸 / 카드 / 뉴런 반응 / 프레임 수신 /
-정상 크기 프레임 / 센서 설정 완료 / 센서 오류**.
+현재 소스를 빌드한 경우의 LED1~8: **lock / 입력 클록 점멸 / 카드 / 센서 설정 완료 /
+센서 오류 / A 원신호 / H 원신호 / 항상 ON**. 이전 BIT의 LED 배치는 다를 수 있다.
 LCD 위쪽 왼쪽 세 상자는 수신 / 정상 프레임 / 표정 반응이며, 아래 노란 막대는
 직접 모드에서 ROI 노란 픽셀 비율, 뉴런 모드에서 학습 가중치를 표시한다.
 하단 y=440의 첫 16비트는 센서 ID(LSB부터), 다음 4비트는 오류 코드다.
@@ -101,13 +107,13 @@ DIP1·DIP2 ON, DIP3 OFF로 둔다. A를 누른 상태에서 잠시 후 B를 함�
 | 보드 표시 | 의미 |
 |---|---|
 | LED1 / LED[0] | MMCM lock |
-| LED2 / LED[1] | 동작 점멸 |
+| LED2 / LED[1] | B6 입력 클록 점멸; H로 초기화하지 않음 |
 | LED3 / LED[2] | 학습 색 자극 |
-| LED4 / LED[3] | 먹이 자극 |
-| LED5 / LED[4] | 출력 뉴런 반응을 약 200ms 연장 표시 |
-| LED6 / LED[5] | 학습 가중치가 0보다 큼 |
-| LED7 / LED[6] | 수치 클리핑: 정상 시험에서는 꺼져 있어야 함 |
-| LED8 / LED[7] | 현재 학습 허용 |
+| LED4 / LED[3] | 센서 설정 완료 |
+| LED5 / LED[4] | 센서 설정 오류 |
+| LED6 / LED[5] | A 버튼 원신호 |
+| LED7 / LED[6] | H 버튼 원신호 |
+| LED8 / LED[7] | 항상 ON인 이미지 다운로드 표식 |
 | LCD 노란 막대 | 직접 모드: A 입력 / 뉴런 모드: 가중치 0~24 |
 | LCD y=408 비트열 | 뉴런 모드: 왼쪽 8비트 가중치, 오른쪽 8비트 발화 수 / 직접 모드: 프레임 수 |
 
@@ -159,16 +165,19 @@ Tcl/숨김 경로 문제를 피하기 위한 임시 드라이브는 실행 후 �
 
 ## 근거와 실물 확인 범위
 
-핀은 강의 PDF의 p.5/8/11/15/76을 사용했다. 버튼 회로(p.11~12)는 눌렀을 때 HIGH다.
+주클록은 **사용자 실물 확인에 따라 B6**다. 강의 PDF p.5의 G2와 다르다.
+그 밖의 핀은 강의 PDF p.8/11/15/76과 카메라 교재 사진을 사용했다.
+버튼 회로(p.11~12)는 눌렀을 때 HIGH다.
 카메라 핀은 [교재 사진에서 옮긴 핀맵과 설정 근거](docs/CAMERA_OV7670.md)를 사용한다.
 LCD는 p.72의 800x480 RGB888, p.73의 falling-edge 샘플링을 기준으로 구성했다.
 제조사 [공식 카탈로그](https://hanback.com/wp-content/uploads/2019/03/FPGA-Digital-Logic-Design_e.pdf)도
 800x480을 명시한다. 실제 패널의 porch 값이 다르면 `lcd_timing.sv`를 조정해야 한다.
 LVCMOS33은 강의의 3.3V 논리 회로를 기준으로 한다.
-G2의 고정 핀 배선을 유지하기 위한 입력 버퍼 구간의 일반 배선 허용은
+현재 XDC에는 기존 입력 버퍼 구간의 일반 배선 허용 설정이 남아 있다. 이 설정은
 [AMD UG903](https://docs.amd.com/r/2024.1-English/ug903-vivado-using-constraints/CLOCK_DEDICATED_ROUTE)에
-설명된 방법이다. 이 입력 경로는 전용 클록 핀과 동등하다고 간주하지 않는다.
+설명된 방법이다. B6에서의 필요성을 검토할 때도 실물에서 동작한 핀 지정은 보존한다.
 
 BIT 생성·DRC·타이밍 결과와 실물 LCD 촬영/카메라 시험은 구분한다.
 클록 lock과 버튼 LED는 정상인데 화면만 깨지면 먼저 LCD 타이밍·DCLK 샘플링 에지를 대조한다.
-현재 보드가 연결되지 않은 상태에서는 LCD가 실제로 켜졌다고 보고하지 않는다.
+사용자는 B6 변경 후 동작을 확인했다. 카메라 영상·카드 반응·학습 성공은 각각 별도로
+실물 결과를 확인해야 하며 구현 사실만으로 성공했다고 기록하지 않는다.

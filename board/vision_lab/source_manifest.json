@@ -1,0 +1,86 @@
+[
+  {
+    "path": "final.srcs/sources_1/rtl/board/board_clocks.sv",
+    "sha256": "485AD24791E6D60D822FFB82B5D5E83C3560E6237418FE7F76FDA2F3BFB46B26"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/board/conditioning_demo.sv",
+    "sha256": "81952835A19A87899F4207414EC37B95179BED2C49BDDC25AB6E7501463C2274"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/board/usagi_board_top.sv",
+    "sha256": "6A667A0937AEEBB5D5B76B95E9559857615D359BA0C5EDC62037FA123A8CD07C"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/common/cdc_mailbox.sv",
+    "sha256": "7C111466E6B8E05F95B3B5120273CF1779643385174C5D45B5C5CCC0F409CC70"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/common/reset_sync.sv",
+    "sha256": "048618A7BEE4BF85231AD5D673382E63A7975D4FD8E71E47928A15AC291B0196"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/display/lcd_timing.sv",
+    "sha256": "87093E4073D31BD833990DD86521828C3B6073610DDFCD49570DE485F94D5B2D"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/display/usagi_display.sv",
+    "sha256": "A12269849335E781E73DA7A572AC6AC1D437E5E427405BA40B08EDC0BF4DF4FF"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/display/vision_diagnostics_display.sv",
+    "sha256": "6A046E64ED5A1349107894BD99C3FB7964C266326091ED60FA5287323273FB54"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/neuron/conditioning_top.sv",
+    "sha256": "C8ADB57527B90A8EC45FCEEA51EAE86ACAAEC6BECA7E3111713B5B05155E57ED"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/neuron/izhikevich_q16.sv",
+    "sha256": "705949F70047BDC3E32E5D5DCD3F9CDB87B5263C57F43B6236B397E06670D9A4"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/camera_pipeline.sv",
+    "sha256": "1FC3B428E124705E0D9844F17C4B2B410B81E80381CAE18C561D1BFDE57D59AA"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/card_detector.sv",
+    "sha256": "D77C4F4425AE2F64496552C5214F749885A51783430015A78A442584CC653D5A"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/card_pet_top.sv",
+    "sha256": "633F31D809E34341BC21039846012DC9207B0BF5729264889C5AE454E8ECE367"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/ov7670_config.sv",
+    "sha256": "96B80F6B1E15ACFC2C75B343CEDBB537D33D771253401AB6EC20C8233319A50A"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/parallel_rgb565_rx.sv",
+    "sha256": "7262E4FC1653DA46D9080C9873494D42F2503748B58C433A8F7C99DEDF679A31"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/sccb_master.sv",
+    "sha256": "119A2A7E3F6799AE7433D36828A4DD4E0CB026D2D30B943A2AD0C757490AEAF1"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/synthetic_camera.sv",
+    "sha256": "CFDB9781A6C7BB5CC1944E68B595C5BA0ABCCD92E09526D47FD1F69362FC0E9F"
+  },
+  {
+    "path": "final.srcs/sources_1/rtl/vision/vision_diagnostics.sv",
+    "sha256": "CDEF8B14873929DC529E9CB2C2BE7A159ECE745FD334AD014ACE57B76985CBC9"
+  },
+  {
+    "path": "final.srcs/sources_1/rom/conditioning_stimulus.mem",
+    "sha256": "237BC82C8A970406B409E954808E7518E2AA68EC9644A5E97E3C0D881C098D4F"
+  },
+  {
+    "path": "final.srcs/sources_1/rom/usagi_128x128.mem",
+    "sha256": "F9458DAAF9691594CDF6F6D9FCDD9C194220EDEFE62D2B16B0D9F1349201C9B3"
+  },
+  {
+    "path": "final.srcs/constrs_1/new/hanback_lcd_pet.xdc",
+    "sha256": "F3C06387A68335D77F0D8EE30D3DE4D1010300E8B8204DC760FAA171C36BA36B"
+  }
+]

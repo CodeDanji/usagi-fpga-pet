@@ -1,8 +1,9 @@
 # Lecture PDF pages 5,8,11,15,76. Target xc7s75fgga484-1.
-# MAIN_CLOCK1=G2 is ordinary I/O; T2 is the unusable N-side of an MRCC pair.
-# Use the fixed G2 wiring and allow ONLY input-to-first-BUFG fabric routing.
+# MAIN_CLOCK1=B6: confirmed working on the actual board by the user, 2026-11-19.
+# PDF p.5 lists G2, but it failed on this board. DO NOT revert B6 to G2.
+# See docs/HANDOFF.md. Existing routing override below is retained unchanged.
 # CLOCK SELECT switch MUST be F (50 MHz).
-set_property PACKAGE_PIN G2 [get_ports MAIN_CLOCK1]
+set_property PACKAGE_PIN B6 [get_ports MAIN_CLOCK1]
 set_property IOSTANDARD LVCMOS33 [get_ports MAIN_CLOCK1]
 create_clock -name main_clock -period 20.000 [get_ports MAIN_CLOCK1]
 set_input_jitter main_clock 0.100

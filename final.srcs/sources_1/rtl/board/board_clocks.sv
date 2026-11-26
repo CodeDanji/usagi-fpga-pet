@@ -1,14 +1,15 @@
-// Board CLOCK SELECT = F (50 MHz), MAIN_CLOCK1 on ordinary I/O G2.
-// Fixed lecture-board wiring requires a fabric segment to the first BUFG.
+// Board CLOCK SELECT = F (50 MHz), MAIN_CLOCK1 on B6 (user hardware verified).
+// PDF G2 mapping failed on this board; do not restore it. See docs/HANDOFF.md.
 // MMCM VCO=1000 MHz: /30 = 33.333 MHz LCD; /40 = 25 MHz neuron/UI.
 module board_clocks(
     input wire clock_50,reset,
-    output wire pixel_clk,core_clk,locked
+    output wire pixel_clk,core_clk,locked,reference_clk
 );
     wire feedback,feedback_buffer,pixel_unbuffered,core_unbuffered;
     wire reference_unbuffered,reference_global;
     IBUF reference_input(.I(clock_50),.O(reference_unbuffered));
     BUFG reference_buf(.I(reference_unbuffered),.O(reference_global));
+    assign reference_clk=reference_global;
     MMCME2_BASE #(
         .BANDWIDTH("OPTIMIZED"),.CLKIN1_PERIOD(20.0),
         .CLKFBOUT_MULT_F(20.0),.DIVCLK_DIVIDE(1),

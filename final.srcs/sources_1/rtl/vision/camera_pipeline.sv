@@ -9,6 +9,11 @@ module camera_pipeline #(
     output wire online,card,good,
     output reg [19:0] yellow,
     output reg [15:0] frames,
+    output reg [12:0] motion_count,
+    output wire motion,motion_ready,
+    input wire command_valid,input wire [1:0] command,
+    output wire [40:0] analysis,
+    output wire [255:0] shape_mask,
     input wire pixel_clk,pixel_rst,frame_tick,
     input wire [11:0] lcd_x,lcd_y,
     output wire [15:0] preview_pixel,
@@ -41,26 +46,79 @@ module camera_pipeline #(
         .clk(pclk),.rst(capture_rst),.frame_start(fs),.pixel_valid(pv),.frame_bad(!frame_ok),
         .pixel(rgb),.x(x),.y(y),.result_valid(result),.card_present(detected),
         .frame_good(complete),.yellow_count(yellow_cam),.roi_count(roi_cam),.frame_number(frame_cam));
-    wire message,mail_busy;wire [37:0] report;
+    // Compare one luminance sample per 4x4 block against the previous frame.
+    // Only the central ROI contributes: 80x60 = 4800 samples at VGA.
+    localparam MOTION_AREA=(WIDTH/8)*(HEIGHT/8);
+    (* ram_style="block" *) reg [7:0] previous_luma[0:WORDS-1];
+    wire motion_sample=pv && x<WIDTH && y<HEIGHT && x[1:0]==0 && y[1:0]==0;
+    wire [14:0] motion_addr=(y>>2)*PW+(x>>2);
+    wire [7:0] luma={2'b0,rgb[15:11],1'b0}+{1'b0,rgb[10:5],1'b0}+{2'b0,rgb[4:0],1'b0};
+    reg [7:0] old_luma,new_luma;
+    reg compare_pending,roi_pending,previous_valid;
+    reg [12:0] motion_acc,motion_result;
+    reg motion_result_valid;
+    wire [7:0] difference=old_luma>new_luma?old_luma-new_luma:new_luma-old_luma;
+    always @(posedge pclk) begin
+        if(motion_sample && !capture_rst) begin
+            old_luma<=previous_luma[motion_addr];
+            previous_luma[motion_addr]<=luma;
+        end
+    end
+    always @(posedge pclk) begin
+        if(capture_rst) begin
+            compare_pending<=0;roi_pending<=0;previous_valid<=0;
+            motion_acc<=0;motion_result<=0;motion_result_valid<=0;
+        end else begin
+            compare_pending<=motion_sample;
+            new_luma<=luma;
+            roi_pending<=x>=WIDTH/4 && x<3*WIDTH/4 && y>=HEIGHT/4 && y<3*HEIGHT/4;
+            if(fs) begin
+                motion_result<=motion_acc;
+                motion_result_valid<=frame_ok && previous_valid;
+                previous_valid<=frame_ok;
+                motion_acc<=0;
+            end else if(compare_pending && roi_pending && previous_valid && difference>=24)
+                motion_acc<=motion_acc+1'b1;
+        end
+    end
+    wire diag_command_valid,command_busy;wire [1:0] diag_command;
+    cdc_mailbox #(.WIDTH(2)) command_mailbox(
+        .src_clk(core_clk),.src_rst(core_rst),.src_send(command_valid),.src_data(command),.src_busy(command_busy),
+        .dst_clk(pclk),.dst_rst(cam_rst),.dst_valid(diag_command_valid),.dst_data(diag_command));
+    wire [40:0] analysis_cam;
+    wire [255:0] shape_mask_cam;
+    vision_diagnostics #(.WIDTH(WIDTH),.HEIGHT(HEIGHT)) diagnostics(
+        .clk(pclk),.rst(capture_rst),.frame_start(fs),.pixel_valid(pv),.frame_good(frame_ok),
+        .pixel(rgb),.x(x),.y(y),.command_valid(diag_command_valid),.command(diag_command),.report(analysis_cam),.silhouette_frame(shape_mask_cam));
+    wire message,mail_busy;wire [348:0] report;
     // Reset the handshake only on the common board reset; sensor reconfiguration
     // stops publications rather than resetting just one half of the mailbox.
-    cdc_mailbox #(.WIDTH(38)) camera_mailbox(
+    cdc_mailbox #(.WIDTH(349)) camera_mailbox(
         .src_clk(pclk),.src_rst(cam_rst),.src_send(result),
-        .src_data({frame_cam,yellow_cam,complete,detected}),.src_busy(mail_busy),
+        .src_data({shape_mask_cam,analysis_cam,motion_result_valid,motion_result,frame_cam,yellow_cam,complete,detected}),.src_busy(mail_busy),
         .dst_clk(core_clk),.dst_rst(core_rst),.dst_valid(message),.dst_data(report));
     reg [24:0] age;
-    reg card_hold,good_hold;
+    reg card_hold,good_hold,motion_valid_hold;
+    reg [40:0] analysis_hold;
+    reg [255:0] shape_mask_hold;
+    assign analysis=good?analysis_hold:41'd0;
+    assign shape_mask=good?shape_mask_hold:256'd0;
     assign online=configured && age<WATCHDOG_CYCLES;
     assign good=online && good_hold;
     assign card=good && card_hold;
+    assign motion_ready=good && motion_valid_hold;
+    assign motion=motion_ready && motion_count*100>=MOTION_AREA*5;
     always @(posedge core_clk) begin
-        if(core_rst) begin age<=WATCHDOG_CYCLES;card_hold<=0;good_hold<=0;yellow<=0;frames<=0;end
+        if(core_rst) begin age<=WATCHDOG_CYCLES;card_hold<=0;good_hold<=0;yellow<=0;frames<=0;motion_count<=0;motion_valid_hold<=0;analysis_hold<=0;shape_mask_hold<=0;end
         else begin
             if(age<WATCHDOG_CYCLES) age<=age+1'b1;
-            if(!configured) begin age<=WATCHDOG_CYCLES;card_hold<=0;good_hold<=0;end
+            if(!configured) begin age<=WATCHDOG_CYCLES;card_hold<=0;good_hold<=0;motion_valid_hold<=0;motion_count<=0;end
             else if(message) begin
                 age<=0;card_hold<=report[0];good_hold<=report[1];
                 yellow<=report[21:2];frames<=report[37:22];
+                motion_count<=report[50:38];motion_valid_hold<=report[51];
+                analysis_hold<=report[92:52];
+                shape_mask_hold<=report[348:93];
             end
         end
     end

@@ -1,0 +1,26 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Thu Nov 19 16:08:32 2026
+| Host         : MINlAPTOP running 64-bit major release  (build 9200)
+| Command      : report_cdc -file U:/board/results/routed_cdc.rpt
+| Design       : usagi_board_top
+| Device       : 7s75-fgga484
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CDC Report
+
+Severity  Source Clock      Destination Clock  CDC Type                 Exceptions               Endpoints  Safe  Unsafe  Unknown  No ASYNC_REG  
+--------  ----------------  -----------------  -----------------------  -----------------------  ---------  ----  ------  -------  ------------  
+Critical  camera_pclk       pixel_unbuffered   No Common Primary Clock  Max Delay Datapath Only          2     1       0        1             0  
+Warning   camera_pclk       core_unbuffered    No Common Primary Clock  Max Delay Datapath Only         37    37       0        0             0  
+Warning   core_unbuffered   pixel_unbuffered   Safely Timed             Max Delay Datapath Only         59    59       0        0             0  
+Info      core_unbuffered   camera_pclk        No Common Primary Clock  False Path                       2     2       0        0             0  
+Info      input port clock  camera_pclk        No Common Primary Clock  False Path                       1     1       0        0             0  
+Info      pixel_unbuffered  camera_pclk        No Common Primary Clock  False Path                       1     1       0        0             0  
+Info      input port clock  core_unbuffered    No Common Primary Clock  False Path                      10    10       0        0             0  
+Info      pixel_unbuffered  core_unbuffered    User Ignored             False Path                       1     1       0        0             0  
+Info      input port clock  pixel_unbuffered   No Common Primary Clock  False Path                       1     1       0        0             0  
+

@@ -67,12 +67,15 @@ module tb_camera;
     end
     reg [7:0] data=0;reg href=0,vsync=0;
     wire online,card,good;wire [19:0] yellow;wire [15:0] frames;
+    wire motion,motion_ready;wire [12:0] motion_count;
     reg frame_tick=0,lcd_swap_enable=1;reg [11:0] lcd_x=24,lcd_y=80;
     wire [15:0] preview_pixel;wire preview_inside;
     camera_pipeline #(.WIDTH(W),.HEIGHT(H),.WATCHDOG_CYCLES(2000000)) path(
         .core_clk(core_clk),.core_rst(rst),.pclk(pclk),.cam_rst(rst),.configured(ready),
         .data(data),.href(href),.vsync(vsync),.online(online),.card(card),.good(good),
         .yellow(yellow),.frames(frames),.pixel_clk(pixel_clk),.pixel_rst(rst),
+        .motion(motion),.motion_ready(motion_ready),.motion_count(motion_count),
+        .command_valid(1'b0),.command(2'b00),.analysis(),
         .frame_tick(frame_tick),.lcd_x(lcd_x),.lcd_y(lcd_y),
         .preview_pixel(preview_pixel),.preview_inside(preview_inside));
     // Frequent LCD blanking boundaries allow ownership acknowledgements.
@@ -106,11 +109,15 @@ module tb_camera;
             $fatal(1,"Camera initialization/readback failed: id=%h error=%d writes=%d",sensor_id,error_code,writes);
         frame(16'hffe0,W);frame(16'hffe0,W);frame(16'hffe0,W);end_frame();
         if(!online || !good || !card || yellow!=W*H/4) $fatal(1,"Real DVP yellow card not detected");
+        if(!motion_ready || motion || motion_count!=0) $fatal(1,"Static image reported motion");
         #10000;
         if(!preview_inside || preview_pixel!=16'hffe0) $fatal(1,"Preview bank/byte order failed %h",preview_pixel);
         lcd_x=24+W/2-1;lcd_y=80+H/2-1;#1000;
         if(!preview_inside || preview_pixel!=16'hffe0) $fatal(1,"Preview last pixel address failed");
-        frame(16'h001f,W);frame(16'h001f,W);frame(16'h001f,W);end_frame();
+        frame(16'h001f,W);end_frame();
+        if(!motion_ready || !motion || motion_count!=4800) $fatal(1,"Frame change not measured: %d",motion_count);
+        frame(16'h001f,W);frame(16'h001f,W);end_frame();
+        if(!motion_ready || motion || motion_count!=0) $fatal(1,"Motion did not settle on static image");
         if(card || !good) $fatal(1,"Blue control incorrectly detected");
         #10000;
         if(preview_pixel!=16'h001f) $fatal(1,"Preview did not switch to blue frame");
@@ -121,8 +128,10 @@ module tb_camera;
         if(preview_pixel!=16'hffe0) $fatal(1,"Published preview bank did not switch in blanking");
         frame(16'hffe0,W-1);end_frame();
         if(good || card) $fatal(1,"Short frame accepted");
+        if(motion_ready || motion) $fatal(1,"Bad frame accepted for motion");
         frame(16'hffe0,W);end_frame();pclk_run=0;#90000000;
         if(online || card || good) $fatal(1,"Stopped PCLK/frame watchdog did not clear state");
+        if(motion || motion_ready) $fatal(1,"Stopped video retained motion");
         pclk_run=1;
         color_bars=1;wait(!ready);wait(ready || failed);
         if(failed || registers[8'h42]!=8'h08) $fatal(1,"Sensor color-bar reconfiguration failed");

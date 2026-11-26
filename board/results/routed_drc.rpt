@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Thu Nov 19 00:24:20 2026
+| Date         : Thu Nov 19 16:08:31 2026
 | Host         : MINlAPTOP running 64-bit major release  (build 9200)
 | Command      : report_drc -file U:/board/results/routed_drc.rpt
 | Design       : usagi_board_top
@@ -19,203 +19,181 @@ Table of Contents
 
 1. REPORT SUMMARY
 -----------------
-            Netlist: usagi_board_top
-          Floorplan: design_1
+            Netlist: netlist
+          Floorplan: checkpoint_board_synth
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 37
-+----------+----------+----------------------------+--------+
-| Rule     | Severity | Description                | Checks |
-+----------+----------+----------------------------+--------+
-| DPIP-1   | Warning  | Input pipelining           | 24     |
-| PDRC-132 | Warning  | SLICE_PairEqSame_A6A5_WARN | 1      |
-| PDRC-134 | Warning  | SLICE_PairEqSame_B6B5_WARN | 3      |
-| PDRC-136 | Warning  | SLICE_PairEqSame_C6C5_WARN | 4      |
-| PDRC-138 | Warning  | SLICE_PairEqSame_D6D5_WARN | 4      |
-| PLCK-12  | Warning  | Clock Placer Checks        | 1      |
-+----------+----------+----------------------------+--------+
+             Checks found: 53
++-----------+----------+----------------------------+--------+
+| Rule      | Severity | Description                | Checks |
++-----------+----------+----------------------------+--------+
+| CHECK-3   | Warning  | Report rule limit reached  | 1      |
+| DPIP-1    | Warning  | Input pipelining           | 25     |
+| PDRC-134  | Warning  | SLICE_PairEqSame_B6B5_WARN | 1      |
+| PDRC-140  | Warning  | SLICE_PairEqSame_A6A5_WARN | 1      |
+| PDRC-142  | Warning  | SLICE_PairEqSame_B6B5_WARN | 1      |
+| PDRC-144  | Warning  | SLICE_PairEqSame_C6C5_WARN | 1      |
+| PDRC-146  | Warning  | SLICE_PairEqSame_D6D5_WARN | 1      |
+| PLCK-12   | Warning  | Clock Placer Checks        | 2      |
+| REQP-1839 | Warning  | RAMB36 async control check | 20     |
++-----------+----------+----------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
+CHECK-3#1 Warning
+Report rule limit reached  
+REQP-1839 rule limit reached: 20 violations have been found.
+Related violations: <none>
+
 DPIP-1#1 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11 input experiment/brain/n0/vnext11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP camera/p_0_out input camera/p_0_out/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#2 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11 input experiment/brain/n0/vnext11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11 input experiment/brain/n0/vnext11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#3 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11__0 input experiment/brain/n0/vnext11__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11 input experiment/brain/n0/vnext11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#4 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11__0 input experiment/brain/n0/vnext11__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11__0 input experiment/brain/n0/vnext11__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#5 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11__1 input experiment/brain/n0/vnext11__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11__0 input experiment/brain/n0/vnext11__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#6 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11__1 input experiment/brain/n0/vnext11__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11__1 input experiment/brain/n0/vnext11__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#7 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11__2 input experiment/brain/n0/vnext11__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11__1 input experiment/brain/n0/vnext11__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#8 Warning
 Input pipelining  
-DSP experiment/brain/n0/vnext11__2 input experiment/brain/n0/vnext11__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11__2 input experiment/brain/n0/vnext11__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#9 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11 input experiment/brain/n1/vnext11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n0/vnext11__2 input experiment/brain/n0/vnext11__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#10 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11 input experiment/brain/n1/vnext11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11 input experiment/brain/n1/vnext11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#11 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11__0 input experiment/brain/n1/vnext11__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11 input experiment/brain/n1/vnext11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#12 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11__0 input experiment/brain/n1/vnext11__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11__0 input experiment/brain/n1/vnext11__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#13 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11__1 input experiment/brain/n1/vnext11__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11__0 input experiment/brain/n1/vnext11__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#14 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11__1 input experiment/brain/n1/vnext11__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11__1 input experiment/brain/n1/vnext11__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#15 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11__2 input experiment/brain/n1/vnext11__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11__1 input experiment/brain/n1/vnext11__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#16 Warning
 Input pipelining  
-DSP experiment/brain/n1/vnext11__2 input experiment/brain/n1/vnext11__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11__2 input experiment/brain/n1/vnext11__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#17 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11 input experiment/brain/n2/vnext11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n1/vnext11__2 input experiment/brain/n1/vnext11__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#18 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11 input experiment/brain/n2/vnext11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11 input experiment/brain/n2/vnext11/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#19 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11__0 input experiment/brain/n2/vnext11__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11 input experiment/brain/n2/vnext11/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#20 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11__0 input experiment/brain/n2/vnext11__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11__0 input experiment/brain/n2/vnext11__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#21 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11__1 input experiment/brain/n2/vnext11__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11__0 input experiment/brain/n2/vnext11__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#22 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11__1 input experiment/brain/n2/vnext11__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11__1 input experiment/brain/n2/vnext11__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#23 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11__2 input experiment/brain/n2/vnext11__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11__1 input experiment/brain/n2/vnext11__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-1#24 Warning
 Input pipelining  
-DSP experiment/brain/n2/vnext11__2 input experiment/brain/n2/vnext11__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP experiment/brain/n2/vnext11__2 input experiment/brain/n2/vnext11__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
-PDRC-132#1 Warning
-SLICE_PairEqSame_A6A5_WARN  
-Luts A6LUT and A5LUT in use in site SLICE_X9Y118 with different equations without A6 pin connected to Global Logic High.
+DPIP-1#25 Warning
+Input pipelining  
+DSP experiment/brain/n2/vnext11__2 input experiment/brain/n2/vnext11__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 PDRC-134#1 Warning
 SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X5Y105 with different equations without A6 pin connected to Global Logic High.
+Luts B6LUT and B5LUT in use in site SLICE_X31Y109 with different equations without A6 pin connected to Global Logic High.
 Related violations: <none>
 
-PDRC-134#2 Warning
+PDRC-140#1 Warning
+SLICE_PairEqSame_A6A5_WARN  
+Luts A6LUT and A5LUT in use in site SLICE_X34Y99 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-142#1 Warning
 SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X5Y114 with different equations without A6 pin connected to Global Logic High.
+Luts B6LUT and B5LUT in use in site SLICE_X70Y100 with different equations without A6 pin connected to Global Logic High.
 Related violations: <none>
 
-PDRC-134#3 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X9Y118 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-136#1 Warning
+PDRC-144#1 Warning
 SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X5Y105 with different equations without A6 pin connected to Global Logic High.
+Luts C6LUT and C5LUT in use in site SLICE_X70Y100 with different equations without A6 pin connected to Global Logic High.
 Related violations: <none>
 
-PDRC-136#2 Warning
-SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X5Y114 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-136#3 Warning
-SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X9Y114 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-136#4 Warning
-SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X9Y118 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-138#1 Warning
+PDRC-146#1 Warning
 SLICE_PairEqSame_D6D5_WARN  
-Luts D6LUT and D5LUT in use in site SLICE_X5Y105 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-138#2 Warning
-SLICE_PairEqSame_D6D5_WARN  
-Luts D6LUT and D5LUT in use in site SLICE_X5Y114 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-138#3 Warning
-SLICE_PairEqSame_D6D5_WARN  
-Luts D6LUT and D5LUT in use in site SLICE_X9Y114 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-138#4 Warning
-SLICE_PairEqSame_D6D5_WARN  
-Luts D6LUT and D5LUT in use in site SLICE_X9Y118 with different equations without A6 pin connected to Global Logic High.
+Luts D6LUT and D5LUT in use in site SLICE_X70Y100 with different equations without A6 pin connected to Global Logic High.
 Related violations: <none>
 
 PLCK-12#1 Warning
@@ -224,9 +202,120 @@ Poor placement for routing between an IO pin and BUFG.
 Resolution: Poor placement of an IO pin and a BUFG has resulted in the router using a non-dedicated path between the two.  There are several things that could trigger this DRC, each of which can cause unpredictable clock insertion delays that result in poor timing.  This DRC could be caused by any of the following: (a) a clock port was placed on a pin that is not a CCIO-pin (b)the BUFG has not been placed in the same half of the device or SLR as the CCIO-pin (c) a single ended clock has been placed on the N-Side of a differential pair CCIO-pin.
  This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint is set to FALSE allowing your design to continue. The use of this override is highly discouraged as it may lead to very poor timing results. It is recommended that this error condition be corrected in the design.
 
-	clocks/reference_input (IBUF.O) is locked to G2
-	clocks/reference_buf (BUFG.I) is provisionally placed by clockplacer on BUFGCTRL_X0Y3
+	camera_input (IBUF.O) is locked to C6
+	camera_buffer (BUFG.I) is provisionally placed by clockplacer on BUFGCTRL_X0Y2
 
+Related violations: <none>
+
+PLCK-12#2 Warning
+Clock Placer Checks  
+Poor placement for routing between an IO pin and BUFG. 
+Resolution: Poor placement of an IO pin and a BUFG has resulted in the router using a non-dedicated path between the two.  There are several things that could trigger this DRC, each of which can cause unpredictable clock insertion delays that result in poor timing.  This DRC could be caused by any of the following: (a) a clock port was placed on a pin that is not a CCIO-pin (b)the BUFG has not been placed in the same half of the device or SLR as the CCIO-pin (c) a single ended clock has been placed on the N-Side of a differential pair CCIO-pin.
+ This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint is set to FALSE allowing your design to continue. The use of this override is highly discouraged as it may lead to very poor timing results. It is recommended that this error condition be corrected in the design.
+
+	clocks/reference_input (IBUF.O) is locked to G2
+	clocks/reference_buf (BUFG.I) is provisionally placed by clockplacer on BUFGCTRL_X0Y4
+
+Related violations: <none>
+
+REQP-1839#1 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_0 has an input control pin camera/preview_memory_reg_0_0/ENARDEN (net: camera/preview_memory_reg_0_0_ENARDEN_cooolgate_en_sig_27) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#2 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_0 has an input control pin camera/preview_memory_reg_0_0/WEA[0] (net: camera/preview_memory_reg_0_0_i_22_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#3 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_1 has an input control pin camera/preview_memory_reg_0_1/ENARDEN (net: camera/preview_memory_reg_0_1_ENARDEN_cooolgate_en_sig_28) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#4 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_1 has an input control pin camera/preview_memory_reg_0_1/WEA[0] (net: camera/preview_memory_reg_0_0_i_22_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#5 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_10 has an input control pin camera/preview_memory_reg_0_10/ENARDEN (net: camera/preview_memory_reg_0_10_ENARDEN_cooolgate_en_sig_43) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#6 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_10 has an input control pin camera/preview_memory_reg_0_10/WEA[0] (net: camera/preview_memory_reg_1_9_i_1_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#7 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_11 has an input control pin camera/preview_memory_reg_0_11/ENARDEN (net: camera/preview_memory_reg_0_11_ENARDEN_cooolgate_en_sig_29) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#8 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_11 has an input control pin camera/preview_memory_reg_0_11/WEA[0] (net: camera/preview_memory_reg_0_11_i_17_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#9 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_12 has an input control pin camera/preview_memory_reg_0_12/ENARDEN (net: camera/preview_memory_reg_0_12_ENARDEN_cooolgate_en_sig_30) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#10 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_12 has an input control pin camera/preview_memory_reg_0_12/WEA[0] (net: camera/preview_memory_reg_0_11_i_17_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#11 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_13 has an input control pin camera/preview_memory_reg_0_13/ENARDEN (net: camera/preview_memory_reg_0_13_ENARDEN_cooolgate_en_sig_44) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#12 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_13 has an input control pin camera/preview_memory_reg_0_13/WEA[0] (net: camera/preview_memory_reg_0_12_i_1_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#13 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_14 has an input control pin camera/preview_memory_reg_0_14/ENARDEN (net: camera/preview_memory_reg_0_14_ENARDEN_cooolgate_en_sig_45) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#14 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_14 has an input control pin camera/preview_memory_reg_0_14/WEA[0] (net: camera/preview_memory_reg_1_13_i_1_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#15 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_15 has an input control pin camera/preview_memory_reg_0_15/ENARDEN (net: camera/preview_memory_reg_0_15_ENARDEN_cooolgate_en_sig_46) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#16 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_15 has an input control pin camera/preview_memory_reg_0_15/WEA[0] (net: camera/preview_memory_reg_1_14_i_1_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#17 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_2 has an input control pin camera/preview_memory_reg_0_2/ENARDEN (net: camera/preview_memory_reg_0_2_ENARDEN_cooolgate_en_sig_47) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#18 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_2 has an input control pin camera/preview_memory_reg_0_2/WEA[0] (net: camera/preview_memory_reg_0_1_i_1_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#19 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_3 has an input control pin camera/preview_memory_reg_0_3/ENARDEN (net: camera/preview_memory_reg_0_3_ENARDEN_cooolgate_en_sig_48) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Related violations: <none>
+
+REQP-1839#20 Warning
+RAMB36 async control check  
+The RAMB36E1 camera/preview_memory_reg_0_3 has an input control pin camera/preview_memory_reg_0_3/WEA[0] (net: camera/preview_memory_reg_1_2_i_1_n_0) which is driven by a register (camera_reset/pipe_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 

@@ -1,66 +1,78 @@
-# 보드 통합 검증
+# 카메라·LCD·학습 통합 결과
 
-검증 완료: 2026-11-19. Vivado/XSim 2024.2, `xc7s75fgga484-1`.
-실물 보드 다운로드·LCD 촬영·카메라 인식 시험은 수행하지 않았다.
+> **과거 G2 빌드 기록이다. 현재 실물 주클록은 B6로 확인됐다.**
+> 아래 해시·타이밍·`board/usagi_camera_pet.bit`를 최신 B6 산출물로 간주하지 않는다.
+> 사용자 실물 시험 파일은 `final.runs/impl_1/usagi_board_top.bit`이며,
+> 현재 상태는 [인수인계서](../docs/HANDOFF.md)를 따른다.
 
-## 프로젝트와 산출물
+2026-11-19, Vivado/XSim 2024.2, `xc7s75fgga484-1`.
+**다운로드 파일: `usagi_camera_pet.bit`. 실물 보드 촬영·인식 시험은 아직 수행하지 않았다.**
 
-- 프로젝트: `../final.xpr`, top `usagi_board_top`.
-- 소스 15개(RTL 13개, MEM 2개), 활성 XDC 1개, 테스트벤치 4개 등록.
-- 등록된 20개 파일 참조의 실제 존재를 확인했다. 임시 드라이브 경로 대신
-  `$PSRCDIR` 상대 경로를 사용하고 프로젝트 헤더는 실제 C: 경로로 복원했다.
-- 다운로드 파일: `usagi_lcd_learning.bit`, 3,686,923바이트.
-- SHA256: `4e1b768f7d781a3213951e4c56b27fc605192965d15fcfd41f2517de74a7adc2`.
-- 기능: LCD 우사기 표시, 버튼 표정 전환, 뉴런 3개와 시냅스 학습,
-  수동 자극 및 9.9초 자동 조건반사 실험. 카메라 초기화는 포함하지 않는다.
+## 산출물
 
-## 시뮬레이션
+- 프로젝트 `../final.xpr`, top `usagi_board_top`.
+- RTL 16개, MEM 2개, XDC 1개, 테스트벤치 5개 및 Vivado utility DCP 등록.
+  프로젝트 파일 참조 25개의 실제 존재를 확인했다. 소스는 `$PSRCDIR` 상대 경로다.
+- BIT 3,686,923바이트, SHA256
+  `1c7183d143703c6f6529515d947e0efe556b8b456704cc48270491517882936f`.
+- 최종 로그 `results/implement.log`: `Bitgen Completed Successfully`,
+  `BOARD IMPLEMENT COMPLETE`. 동일 RTL의 합성 체크포인트에 수정된 핀 XDC를 적용했다.
+  최초 XDC의 반복문은 XDC 지원 범위에 맞춰 개별 핀 지정문으로 수정했다.
+- 이전 LCD 전용 BIT는 보존했다. 이전 검증은 `backup/LCD_ONLY_VERIFICATION.md`에 보존했다.
 
-`tb_board`에서 다음을 확인했다.
+## 동작과 확인 범위
 
-- 실제 UNISIM MMCM/BUFG/ODDR 모델과 리셋·lock 시작.
-- A 버튼 입력/해제에 따른 표정 상태 전환.
-- ROM 자극을 사용한 자동 학습 후 가중치 24 도달.
-- 학습 중지 후 가중치 유지, 대조 자극 무반응과 학습 자극 반응.
-- H 리셋 후 학습값 초기화.
+사용자가 제공한 교재 사진의 OV7670 핀맵을 적용했다.
+XCLK/RESET/PWDN, SCCB 초기화·ID/설정값 확인, VGA RGB565 수신,
+전체 프레임 검사, 중앙 노란 카드 검출, 이중 버퍼 미리보기,
+기존 버튼·ROM 자극·뉴런 학습을 하나의 top에 연결했다.
 
-최종 로그: `../experiments/results/board_run.log`의 `PASS board`.
-`tb_display`의 두 표정 800x480 출력·픽셀 수·HS/VS 폭 검사도 통과했다.
-뉴런 수치 모델과의 39,600단계 비교는 이전 독립 검증 결과를 참고한다.
+- `../experiments/results/camera_run.log`: `PASS camera`.
+  SCCB 센서 모델과 전체 640x480 입력으로 초기화/읽기,
+  잘못된 ID·미연결, 카드/대조 색, 불완전 프레임, 미리보기 첫·마지막 픽셀,
+  버퍼 소유권, PCLK 중단 후 인식 해제, 컬러바 변경을 확인했다.
+- `../experiments/results/board_run.log`: `PASS board`.
+  UNISIM 클록·I/O 모델에서 버튼 반응, 자동 학습 후 가중치 24,
+  가중치 유지·대조 자극·학습 자극 반응과 리셋을 확인했다.
+- 이번에는 위 두 통합 경로만 실행했다. 개별 화면·수치 모델 등의 기존 시험은
+  반복하지 않았다. 기본 `run_checks.ps1`도 이 두 경로로 한정했다.
 
-## 실제 배치·배선 결과
+## 배치·배선 결과
 
-| 항목 | 최종 결과 |
+| 항목 | 결과 |
 |---|---:|
 | Setup WNS | +6.190ns |
-| Hold WHS | +0.122ns |
+| Hold WHS | +0.064ns |
 | Pulse-width 여유 | +7.000ns |
 | Setup / hold 실패 endpoint | 0 / 0 |
-| LUT | 4,135 / 48,000 |
-| FF | 528 / 96,000 |
-| BRAM36 타일 | 12 / 90 |
-| DSP | 13 / 140 |
-| 고정 I/O | 45 |
+| LUT | 4,582 / 48,000 |
+| FF | 1,205 / 96,000 |
+| BRAM36 | 44 / 90 |
+| DSP | 16 / 140 |
+| 고정 I/O | 63 |
 
-`results/routed_timing.rpt`, `routed_utilization.rpt`, `routed_drc.rpt`에 원문을 보존했다.
-`results/build.log`에서 `Bitgen Completed Successfully`, `BOARD BUILD COMPLETE`를 확인했다.
-DRC 오류는 0개이고, 경고는 아래와 같이 남아 있다. 경고를 모두 제거한 설계라는 뜻은 아니다.
+원문: `results/routed_timing.rpt`, `routed_utilization.rpt`, `routed_drc.rpt`,
+`routed_cdc.rpt`. 모든 지정된 타이밍을 만족했고 BIT 생성 DRC 오류는 0개다.
+아래 경고가 남으므로 모든 경고가 해소됐다는 뜻은 아니다.
 
-## 남은 경고와 실물 확인 사항
+## 남은 경고와 실물 확인
 
-- **PLCK-12 1건:** 강의 보드의 G2 고정 클록 배선이 일반 I/O이므로 입력 IBUF부터
-  첫 BUFG까지 일반 배선을 허용했다. 이후 MMCM/글로벌 클록을 사용한다.
-  T2는 MRCC N측이어서 단일 종단 전용 클록 입력으로 사용할 수 없음을 DRC로 확인했다.
-- **DPIP-1 24건:** 뉴런 DSP 입력을 파이프라인하지 않은 구조에 대한 성능 경고.
-  현재 25MHz 목표에서는 배치·배선 타이밍을 만족했다.
-- **PDRC-132/134/136/138 합계 12건:** LUT pair 배치·equation 관련 도구 경고가 남아 있다.
-  원문을 숨기거나 심각도를 변경하지 않았다. 실물 검증을 대체하지 않는다.
-- 스프라이트 ROM 출력과 자동 자극 ROM 주소의 리셋 경로를 정리해
-  **REQP-1839 BRAM 비동기 제어 경고는 최종 보고서에서 없어졌다.**
-- 도구 환경의 Tcl store/WebTalk 설정 쓰기 경고는 로그에 남아 있다.
-  비트스트림 생성은 성공했다.
+- PLCK-12 2건: 고정 G2 주클록, C6 카메라 PCLK가 일반 I/O다.
+  각각 IBUF→첫 BUFG 구간만 일반 배선을 허용했다. 전용 클록 핀과 동등하지 않다.
+- DPIP-1 25건, PDRC LUT pair 경고 5건: 최종 배선 타이밍은 만족했다.
+- REQP-1839: BRAM 쓰기 허용이 비동기 assert 리셋의 영향을 받는 경고다.
+  표시 제한에 따라 20건과 CHECK-3이 보고됐다. 전체 리셋에서는 preview_valid와
+  소유권을 무효화하고 정상 프레임 전체를 다시 쓴 뒤에만 게시한다.
+  리셋 중 메모리 내용 보존을 보장하는 구조는 아니다.
+- CDC 요약 Unknown 1건은 published_bank→read_bank 전달이다.
+  request 2단 동기화 후 LCD 공백에서 읽고 acknowledge까지 bank를 고정한다.
+  25ns 최대 지연을 지정했다. Unsafe는 0이다. 프로토콜을 시뮬레이션으로 확인했으며
+  도구가 전부 자동 판정한 것은 아니다.
+- output delay 미지정 1포트는 전달 클록 CAM_XCLK다. LCD 데이터와 카메라 DVP
+  입력 지연은 제약했다. SCCB는 저속 FSM으로 구동한다. 버튼·LED·리셋 등
+  비동기 제어/표시는 별도 false path다. Tcl store 쓰기 경고는 도구 환경에 남아 있다.
 
-클록은 F=50MHz, LCD는 800x480과 falling-edge 샘플링을 기준으로 했다.
-정확한 패널 porch와 보드 배선·전압은 실물에서 대조해야 한다.
-카메라는 강의 PDF에 상세 핀맵·센서 초기화가 없어 기본 top에 연결하지 않았다.
-시험 순서와 조작은 상위 `README.md`를 따른다.
+실물에서는 CLOCK SELECT F=50MHz, DIP4 ON으로 미리보기·노란 카드 반응부터
+확인한다. DIP5는 센서 내부 컬러바다. 조작은 `../README.md`, 핀·설정 근거는
+`../docs/CAMERA_OV7670.md`를 따른다. LCD porch, 실제 색감·노출·배선 지연은
+실물에서 확인해야 한다. JTAG 다운로드·플래시 쓰기는 실행하지 않았다.

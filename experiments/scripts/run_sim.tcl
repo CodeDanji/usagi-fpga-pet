@@ -1,7 +1,7 @@
-# vivado -mode batch -source experiments/scripts/run_sim.tcl -tclargs card|display|conditioning
+# vivado -mode batch -source experiments/scripts/run_sim.tcl -tclargs card|display|conditioning|board|camera|vision
 set root [file normalize [file join [file dirname [info script]] ..]]
-if {[llength $argv] != 1 || [lindex $argv 0] ni {card display conditioning board camera}} {
-    error "Select card, display, or conditioning"
+if {[llength $argv] != 1 || [lindex $argv 0] ni {card display conditioning board camera vision}} {
+    error "Select card, display, conditioning, board, camera, or vision"
 }
 set which [lindex $argv 0]
 set build [file join $root build sim_$which]
@@ -18,7 +18,7 @@ if {$which eq "conditioning"} {
     }
     add_files -norecurse [file join $root .. final.srcs sources_1 rom conditioning_stimulus.mem]
     set tb tb_conditioning
-} elseif {$which eq "camera"} {set tb tb_camera} elseif {$which eq "card"} {set tb tb_card_path} elseif {$which eq "board"} {
+} elseif {$which eq "vision"} {set tb tb_vision_diagnostics} elseif {$which eq "camera"} {set tb tb_camera} elseif {$which eq "card"} {set tb tb_card_path} elseif {$which eq "board"} {
     add_files -norecurse [file join $root .. final.srcs sources_1 rom conditioning_stimulus.mem]
     set tb tb_board
 } else {set tb tb_display}
@@ -29,7 +29,7 @@ update_compile_order -fileset sources_1
 launch_simulation
 close_sim
 set simdir [file join $build sim_$which.sim sim_1 behav xsim]
-foreach name {conditioning_rtl.csv display_neutral.ppm display_happy.ppm} {
+foreach name {conditioning_rtl.csv display_neutral.ppm display_happy.ppm vision_panel.ppm} {
     if {[file exists [file join $simdir $name]]} {
         file copy -force [file join $simdir $name] [file join $root results $name]
     }

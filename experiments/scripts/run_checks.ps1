@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('all','card','display','conditioning','board','camera','synth-card','synth-conditioning')]
+    [ValidateSet('all','card','display','conditioning','board','camera','vision','synth-card','synth-conditioning')]
     [string]$Task='all',
     [string]$Vivado='C:\Xilinx\Vivado\2024.2\bin\vivado.bat',
     [string]$Python='C:\Users\sodas\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
@@ -25,11 +25,13 @@ try {
         & $Python -X utf8 experiments/assets/generate_sprite.py
         if($LASTEXITCODE) { throw 'Sprite generation failed' }
     }
-    if($Task -in @('all','conditioning')) {
+    if($Task -eq 'conditioning') {
         & $Python -X utf8 experiments/model/reference.py
         if($LASTEXITCODE) { throw 'Reference model failed' }
     }
-    $jobs=if($Task -eq 'all') {@('camera','board','card','display','conditioning','synth-card','synth-conditioning')} else {@($Task)}
+    # Default checks cover the two integrated paths. Isolated/model/synthesis
+    # checks remain explicit options, avoiding repeated overlapping runs.
+    $jobs=if($Task -eq 'all') {@('board','camera')} else {@($Task)}
     foreach($job in $jobs) {
         $synthesis=$job.StartsWith('synth-')
         $name=if($synthesis) {$job.Substring(6)} else {$job}
